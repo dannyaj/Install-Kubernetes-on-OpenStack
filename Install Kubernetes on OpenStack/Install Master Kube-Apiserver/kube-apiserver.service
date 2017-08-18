@@ -1,0 +1,31 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/kubernetes/kubernetes
+After=network.target etcd.service
+
+[Service]
+#--apiserver-count=2 \
+#--etcd-servers=http://10.1.5.150:2379,http://10.1.5.151:2379 \
+User=root
+ExecStart=/opt/kubernetes/server/bin/kube-apiserver \
+--insecure-bind-address=0.0.0.0 \
+--insecure-port=8080 \
+--apiserver-count=2 \
+--etcd-servers=http://10.1.5.246:2379,http://10.1.5.247:2379 \
+--logtostderr=true \
+--allow-privileged=false \
+--service-cluster-ip-range=172.16.0.0/16 \
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,SecurityContextDeny,ResourceQuota \
+--service-node-port-range=30000-32767 \
+--advertise-address=10.1.5.246 \
+--client-ca-file=/srv/kubernetes/ca.crt \
+--tls-cert-file=/srv/kubernetes/server.crt \
+--tls-private-key-file=/srv/kubernetes/server.key \
+--cloud-config=/opt/kubernetes/config/cloud.conf \
+--cloud-provider=openstack
+Restart=on-failure
+Type=notify
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

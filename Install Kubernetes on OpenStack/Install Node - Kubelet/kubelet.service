@@ -1,0 +1,18 @@
+[Unit]
+Description=Kubernetes Kubelet
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=root
+ExecStart=/opt/kubernetes/server/bin/kubelet \
+--hostname-override=mini-k8s-node1 \
+--api-servers=http://10.1.5.250:8080 \
+--logtostderr=true \
+--cloud-config=/opt/kubernetes/config/cloud.conf \
+--cloud-provider=openstack
+Restart=on-failure
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

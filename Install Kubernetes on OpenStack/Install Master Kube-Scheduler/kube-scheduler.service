@@ -1,0 +1,13 @@
+[Unit]
+Description=Kubernetes Scheduler
+Documentation=https://github.com/kubernetes/kubernetes
+After=kube-apiserver.service
+
+[Service]
+User=root
+ExecStart=/opt/kubernetes/server/bin/kube-scheduler --logtostderr=true --master=127.0.0.1:8080
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

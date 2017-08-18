@@ -1,0 +1,13 @@
+[Unit]
+Description=Kubernetes Controller Manager
+Documentation=https://github.com/kubernetes/kubernetes
+After=kube-apiserver.service
+
+[Service]
+User=root
+ExecStart=/opt/kubernetes/server/bin/kube-controller-manager --master=127.0.0.1:8080 --root-ca-file=/srv/kubernetes/ca.crt --service-account-private-key-file=/srv/kubernetes/server.key --logtostderr=true --cloud-config=/opt/kubernetes/config/cloud.conf --cloud-provider=openstack
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

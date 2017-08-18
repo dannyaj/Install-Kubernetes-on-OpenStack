@@ -1,0 +1,13 @@
+[Unit]
+Description=Kubernetes Proxy
+After=network.target
+
+[Service]
+ExecStart=/opt/kubernetes/server/bin/kube-proxy \
+--hostname-override=mini-k8s-node1 \
+--master=http://10.1.5.250:8080 \
+--logtostderr=true
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
